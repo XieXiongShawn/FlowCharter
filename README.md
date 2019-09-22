@@ -1,7 +1,7 @@
 # FlowCharter
 Temporarily, the FlowCharter is a customerizable GUI program designed for drawing flow chart.
 
-The idol of this program is Visio. So that, all the operation methods would be similar (just the direction of its designer) than Visio.
+The idol of this program is Visio. So that, all the operation methods would be similar (the direction of its designer) as Visio.
 
 This program is a off-work project driven by personal interest. The design purpose is to practice/enhance coding skill&brain. 
 

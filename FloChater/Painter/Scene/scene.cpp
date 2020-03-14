@@ -19,18 +19,12 @@ Scene::~Scene()
     delete GScene;
 }
 
-/* New a statement with given position */
-Symbols* Scene::AddStatement(qreal x, qreal y)
-{
-    return AddStatement("Statements", x, y);
-}
-
 /* New a statement with given info */
-Symbols* Scene::AddStatement(QString statements, qreal x, qreal y)
+Symbols* Scene::AddStatement(qreal x, qreal y, QString condition, QString statements)
 {
     QPointF p((x - (MC_TxtWidth / 2) - 5), y);
 
-    Symbols* statement = new Symbols(statements, p, Rect);
+    Symbols* statement = new Symbols(condition, statements, p, Rect);
     myExistingSymbols.append(statement);
     mySymbolCount++;
 
@@ -46,14 +40,8 @@ void Scene::ShowStatement(Symbols *state)
     return;
 }
 
-/* New a stage with given position */
-Symbols* Scene::AddStage(qreal x, qreal y)
-{
-    return AddStage("02.03.04.05", x, y);
-}
-
 /* New a stage with given info */
-Symbols* Scene::AddStage(QString stateNumber, qreal x, qreal y)
+Symbols* Scene::AddStage(qreal x, qreal y, QString stateNumber)
 {
     QPointF p((x - (MC_StageTxtRect / 2)), y);
     Symbols* stage = new Symbols(stateNumber, p, Circle);
@@ -139,6 +127,7 @@ void Scene::dltItemsFromScene()
     {
         GScene->removeItem(GScene->selectedItems().at(0));
     }
+    //qDebug() << GScene->selectedItems().size();
 
     return;
 }

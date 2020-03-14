@@ -13,11 +13,34 @@ Symbols::Symbols()
     mySymbolIsEffective = false;
 }
 
-/* Construct an code-block object with given info */
-Symbols::Symbols(QString statement, QPointF pos, SymShape shape)
+/* Construct an object with given info */
+Symbols::Symbols(QString str, QPointF pos, SymShape shape)
 {
     myShape = shape;
     myCtrlIsPressed = false;
+
+    myConditionItem = new SymTxt(str, this);
+    myConditionItem->setTextInteractionFlags(Qt::NoTextInteraction);
+    myConditionItem->setFlags(ItemIsMovable | ItemIsFocusable | ItemSendsScenePositionChanges);
+
+    myStatementItem = NULL;
+
+    mySymbolIsEffective = true;
+
+    setFlags(ItemIsMovable | ItemIsSelectable | ItemIsFocusable | ItemSendsScenePositionChanges);
+    this->setPos(pos);
+}
+
+/* Construct an code-block object with given info */
+Symbols::Symbols(QString condition, QString statement, QPointF pos, SymShape shape)
+{
+    myShape = shape;
+    myCtrlIsPressed = false;
+
+    myConditionItem = new SymTxt(condition, this);
+    myConditionItem->setTextInteractionFlags(Qt::NoTextInteraction);
+    myConditionItem->setFlags(ItemIsMovable | ItemIsFocusable | ItemSendsScenePositionChanges);
+    myConditionItem->SetBold(false);
 
     myStatementItem = new SymTxt(statement, this);
     myStatementItem->setTextInteractionFlags(Qt::NoTextInteraction);
@@ -35,6 +58,8 @@ Symbols::~Symbols()
 {
     if (mySymbolIsEffective)
     {
+        delete myConditionItem;
+
         if (myStatementItem)
         {
             delete myStatementItem;
@@ -56,7 +81,7 @@ QRectF Symbols::boundingRect() const
     {
         rect.setRect(0,0,
                      (MC_TxtWidth + 10),
-                     (myStatementItem->boundingRect().height()));
+                     (myConditionItem->boundingRect().height() + myStatementItem->boundingRect().height()));
     }
 
     return rect;
@@ -86,13 +111,24 @@ void Symbols::paint(QPainter *painter, const QStyleOptionGraphicsItem* option, Q
     /* Keep the alignment of the text item */
     if (myStatementItem)
     {
-        myStatementItem->setPos(((this->boundingRect().width() / 2) - (myStatementItem->boundingRect().width() / 2)),
-                                ((this->boundingRect().height() / 2) - (myStatementItem->boundingRect().height() / 2)));
+        qreal rectWidth = this->boundingRect().width();
+        myConditionItem->setPos(((rectWidth / 2) - (myConditionItem->boundingRect().width() / 2)),
+                                (0));
+
+        myStatementItem->setPos(((rectWidth / 2) - (myStatementItem->boundingRect().width() / 2)),
+                                (myConditionItem->boundingRect().height()));
+
+        QPointF separator(0, myConditionItem->boundingRect().height());
+        painter->drawLine(separator.x(), separator.y(),
+                          (separator.x() + rectWidth), separator.y());
     }
     else
     {
+        myConditionItem->setPos(((this->boundingRect().width() / 2) - (myConditionItem->boundingRect().width() / 2)),
+                                ((this->boundingRect().height() / 2) - (myConditionItem->boundingRect().height() / 2)));
     }
 
+    //qDebug() << LinkedInS.size() << LinkedToS.size();
     UpdateLinkers();
 
     return;
@@ -122,6 +158,10 @@ void Symbols::mousePressEvent(QGraphicsSceneMouseEvent *event)
     /* If the Ctrl is pressed, text cannot be changed. For a better selection experience */
     if (!myCtrlIsPressed)
     {
+        myConditionItem->mousePressEvent(event);
+        myConditionItem->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard | Qt::TextEditable);
+        myConditionItem->setSelected(true);
+
         if (myStatementItem)
         {
             myStatementItem->mousePressEvent(event);
@@ -135,6 +175,10 @@ void Symbols::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void Symbols::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mouseDoubleClickEvent(event);
+
+    myConditionItem->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard | Qt::TextEditable);
+    myConditionItem->setSelected(true);
+    myConditionItem->mouseDoubleClickEvent(event);
 
     if (myStatementItem)
     {
@@ -157,10 +201,12 @@ void Symbols::focusOutEvent(QFocusEvent *event)
 
     if (myStatementItem)
     {
+        myConditionItem->textCursor().insertText(myConditionItem->textCursor().selectedText());
         myStatementItem->textCursor().insertText(myStatementItem->textCursor().selectedText());
     }
     else
     {
+        myConditionItem->textCursor().insertText(myConditionItem->textCursor().selectedText());
     }
 }
 
@@ -175,10 +221,12 @@ void Symbols::keyPressEvent(QKeyEvent *event)
 
     if (myStatementItem)
     {
+        myConditionItem->keyPressEvent(event);
         myStatementItem->keyPressEvent(event);
     }
     else
     {
+        myConditionItem->keyPressEvent(event);
     }
 }
 
@@ -189,10 +237,12 @@ void Symbols::keyReleaseEvent(QKeyEvent *event)
 
     if (myStatementItem)
     {
+        myConditionItem->keyReleaseEvent(event);
         myStatementItem->keyReleaseEvent(event);
     }
     else
     {
+        myConditionItem->keyReleaseEvent(event);
     }
 }
 

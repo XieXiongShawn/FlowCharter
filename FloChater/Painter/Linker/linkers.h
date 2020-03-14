@@ -13,8 +13,7 @@ class Linkers : public QVector<CLineItem*>
 {
 public:
     Linkers();
-    Linkers(QGraphicsItem* srcItem, QGraphicsItem* dstItem);
-    Linkers(QGraphicsItem* srcItem, QGraphicsItem* dstItem, QString stepNbr);
+    Linkers(QGraphicsItem* srcItem, QGraphicsItem* dstItem, QString stepNbr="");
     ~Linkers();
 
 

@@ -31,8 +31,6 @@ class Ui_MainWindow
 {
 public:
     QAction *actionOpen;
-    QAction *actionHelp;
-    QAction *actionAbout;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QVBoxLayout *verticalLayout;
@@ -44,7 +42,6 @@ public:
     CGraphicsView *graphicsView;
     QMenuBar *menuBar;
     QMenu *menuFile;
-    QMenu *menuHelp;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -55,10 +52,6 @@ public:
         MainWindow->resize(706, 448);
         actionOpen = new QAction(MainWindow);
         actionOpen->setObjectName(QStringLiteral("actionOpen"));
-        actionHelp = new QAction(MainWindow);
-        actionHelp->setObjectName(QStringLiteral("actionHelp"));
-        actionAbout = new QAction(MainWindow);
-        actionAbout->setObjectName(QStringLiteral("actionAbout"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -73,15 +66,15 @@ public:
 
         verticalLayout->addWidget(btnState);
 
-        btnStage = new QPushButton(centralWidget);
-        btnStage->setObjectName(QStringLiteral("btnStage"));
-
-        verticalLayout->addWidget(btnStage);
-
         btnLink = new QPushButton(centralWidget);
         btnLink->setObjectName(QStringLiteral("btnLink"));
 
         verticalLayout->addWidget(btnLink);
+
+        btnStage = new QPushButton(centralWidget);
+        btnStage->setObjectName(QStringLiteral("btnStage"));
+
+        verticalLayout->addWidget(btnStage);
 
         btnDel = new QPushButton(centralWidget);
         btnDel->setObjectName(QStringLiteral("btnDel"));
@@ -107,8 +100,6 @@ public:
         menuBar->setGeometry(QRect(0, 0, 706, 25));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
-        menuHelp = new QMenu(menuBar);
-        menuHelp->setObjectName(QStringLiteral("menuHlep"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -119,10 +110,6 @@ public:
 
         menuBar->addAction(menuFile->menuAction());
         menuFile->addAction(actionOpen);
-        menuBar->addAction(menuHelp->menuAction());
-        menuHelp->addAction(actionHelp);
-        menuHelp->addSeparator();
-        menuHelp->addAction(actionAbout);
 
         retranslateUi(MainWindow);
 
@@ -134,15 +121,12 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         actionOpen->setText(QApplication::translate("MainWindow", "Open", 0));
         actionOpen->setShortcut(QKeySequence::Open);
-        actionHelp->setText(QApplication::translate("MainWindow", "Help", 0));
-        actionAbout->setText(QApplication::translate("MainWindow", "About", 0));
         btnState->setText(QApplication::translate("MainWindow", "State", 0));
-        btnStage->setText(QApplication::translate("MainWindow", "Stage", 0));
         btnLink->setText(QApplication::translate("MainWindow", "Link", 0));
-        btnDel->setText(QApplication::translate("MainWindow", "Delete", 0));
+        btnStage->setText(QApplication::translate("MainWindow", "Stage", 0));
+        btnDel->setText(QApplication::translate("MainWindow", "Delete Items", 0));
         btnUpdate->setText(QApplication::translate("MainWindow", "Update", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
-        menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0));
     } // retranslateUi
 
 };

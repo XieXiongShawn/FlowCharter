@@ -42,6 +42,7 @@ void CGraphicsView::wheelEvent(QWheelEvent *event)
 {
     if (myZooming)
     {
+        //this->centerOn(event->pos());
         float t = ((event->angleDelta()).y());
         if (t < 0)
         {

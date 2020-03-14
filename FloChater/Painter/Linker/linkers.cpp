@@ -8,21 +8,6 @@ Linkers::Linkers()
 {
 }
 
-/* Construct an object with two given QGraphicsItems wihtout a step number */
-Linkers::Linkers(QGraphicsItem *srcItem, QGraphicsItem *dstItem)
-{
-    mySrcPoint  = srcItem->pos();
-    mySrcH      = srcItem->boundingRect().height();
-    mySrcW      = srcItem->boundingRect().width();
-    myDstPoint  = dstItem->pos();
-    myDstH      = dstItem->boundingRect().height();
-    myDstW      = dstItem->boundingRect().width();
-    myArrow     = new QGraphicsPathItem;
-    myStepNbr   = NULL;
-
-    CreateLinker();
-}
-
 /* Construct an object with two given QGraphicsItems with a given step number */
 Linkers::Linkers(QGraphicsItem* srcItem, QGraphicsItem* dstItem, QString stepNbr)
 {
@@ -33,7 +18,11 @@ Linkers::Linkers(QGraphicsItem* srcItem, QGraphicsItem* dstItem, QString stepNbr
     myDstH      = dstItem->boundingRect().height();
     myDstW      = dstItem->boundingRect().width();
     myArrow     = new QGraphicsPathItem;
-    myStepNbr   = SetupStepNumber(stepNbr, myDstPoint);
+
+    if (stepNbr != "")
+        myStepNbr   = SetupStepNumber(stepNbr, myDstPoint);
+    else
+        myStepNbr   = NULL;
 
     CreateLinker();
 }

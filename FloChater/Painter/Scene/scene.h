@@ -11,12 +11,10 @@ public:
     Scene();
     ~Scene();
 
-    Symbols*                AddStatement(qreal x, qreal y);
-    Symbols*                AddStatement(QString statements, qreal x, qreal y);
+    Symbols*                AddStatement(qreal x, qreal y, QString condition="Condition", QString statements="Statements");
     void                    ShowStatement(Symbols* state);
 
-    Symbols*                AddStage(qreal x, qreal y);
-    Symbols*                AddStage(QString stateNumber, qreal x, qreal y);
+    Symbols*                AddStage(qreal x, qreal y, QString stateNumber="02.03.04.05");
     void                    ShowStage(Symbols* stage);
 
     void                    AddLinkers();

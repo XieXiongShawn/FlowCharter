@@ -12,8 +12,8 @@ class Symbols : public QGraphicsItem
 {
 public:
     Symbols();
-    //Symbols(QString str, QPointF pos, SymShape shape);
-    Symbols(QString statement, QPointF pos, SymShape shape);
+    Symbols(QString str, QPointF pos, SymShape shape);
+    Symbols(QString condition, QString statement, QPointF pos, SymShape shape);
     ~Symbols();
 
     QRectF              boundingRect() const;
@@ -34,6 +34,7 @@ public:
 private:
     SymShape            myShape;
 
+    SymTxt*             myConditionItem;
     SymTxt*             myStatementItem;
     bool                myCtrlIsPressed;
 
